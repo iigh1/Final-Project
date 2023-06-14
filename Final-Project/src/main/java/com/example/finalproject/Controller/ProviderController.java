@@ -33,7 +33,7 @@ public class ProviderController {
         return ResponseEntity.status(200).body("provider updated");
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteProvider(@AuthenticationPrincipal MyUser myUser,@PathVariable Integer id){
+    public ResponseEntity deleteProvider(@PathVariable Integer id){
         providerService.deleteProvider(id);
         return ResponseEntity.status(200).body("provider deleted");
     }
