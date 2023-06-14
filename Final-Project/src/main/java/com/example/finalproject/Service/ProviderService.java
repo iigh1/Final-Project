@@ -37,19 +37,22 @@ public class ProviderService {
         authRepository.save(myUser);
     }
 
-    public void updateProvider(Integer providerId,Provider provider){
+    public void updateProvider(Integer providerId,Provider provider,Integer auth){
         Provider oldProvider = providerRepository.findProviderById(providerId);
+        MyUser myUser=authRepository.findMyUserById(auth);
         if (oldProvider == null) {
             throw new ApiException("wrong id");
         }
-        else if(oldProvider.getMyUser().getId()!=providerId){
+        else if(oldProvider.getMyUser().getId()!=auth){
             throw new ApiException("Sorry , You do not have the authority to update this Customer!");
         }
+        oldProvider.setName(provider.getName());
         oldProvider.setPassword(provider.getPassword());
         oldProvider.setEmail(provider.getEmail());
         oldProvider.setField(provider.getField());
-        oldProvider.setInstegramAccount(provider.getInstegramAccount());
         oldProvider.setPhoneNumber(provider.getPhoneNumber());
+        oldProvider.setInstegramAccount(provider.getInstegramAccount());
+        oldProvider.setRating(provider.getRating());
 
         providerRepository.save(oldProvider);
     }
