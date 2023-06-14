@@ -45,5 +45,9 @@ public class Provider {
     @MapsId // PK
     @JsonIgnore
     private MyUser myUser;
+    
+    //Nada
+    @ManyToMany(mappedBy = "providerSet")
+    private Set<MyService> myServices;
 
 }
