@@ -13,39 +13,57 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-public class Request {
+@AllArgsConstructor
+@NoArgsConstructor
+    public class Request {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Integer id;
 
-    private Date date;
+        private Date date;
 
-    @Column(name="time")
-    private LocalDateTime time;
+        @Column(name="time")
+        private LocalDateTime time;
 
-    @NotEmpty(message = "Occasion is required")
-    @Column(columnDefinition = "varchar(20)")
-    private String occasion;
+        @NotEmpty(message = "Occasion is required")
+        @Column(columnDefinition = "varchar(20)")
+        private String occasion;
 
-    @Pattern(regexp = "\\b(?:New|Accepted|inProgress|Completed)\\b",message = "Status Not Valid")
-    @Column(columnDefinition = "varchar(20) not null check(Status='New' or Status='Accepted' " +
-            "or Status='inProgress' or Status='Completed')")
-    private String status;
+        @Pattern(regexp = "\\b(?:New|Accepted|inProgress|Completed)\\b",message = "Status Not Valid")
+        @Column(columnDefinition = "varchar(20) not null check(Status='New' or Status='Accepted' " +
+                "or Status='inProgress' or Status='Completed')")
+        private String status;
 
-    @NotNull(message = "Price is required")
-    @Positive
-    private Double price;
+        @NotNull(message = "Price is required")
+        @Positive
+        private Double price;
 
-    @ManyToOne
-    @JoinColumn(name = "request_id",referencedColumnName = "id")
-    @JsonIgnore
-    private MyService myService;
+        @ManyToOne
+        @JoinColumn(name = "request_id",referencedColumnName = "id")
+        @JsonIgnore
+        private MyService myService;
 
-}
+
+       @OneToOne(cascade = CascadeType.ALL,mappedBy = "request")
+       @PrimaryKeyJoinColumn
+       private Review review;
+
+       @ManyToOne
+       @JoinColumn(name = "provider_id")
+       @JsonIgnore
+       private Provider provider;
+
+       @ManyToOne
+       @JoinColumn(name = "customer_id")
+       @JsonIgnore
+       private Customer customer;
+
+    }
+
+
