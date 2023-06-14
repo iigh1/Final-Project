@@ -27,13 +27,11 @@ public class AuthService {
         authRepository.save(myUser);
     }
 
-
-    //as provider
-//    public void registerAsProvider(MyUser myUser){
-//        String hash=new BCryptPasswordEncoder().encode(myUser.getPassword()); //ENCRYPT
-//        myUser.setPassword(hash);
-//        myUser.setRole("PROVIDER");
-//        authRepository.save(myUser);
-//    }
+     public void registerProvider(MyUser myUser){
+        String hash=new BCryptPasswordEncoder().encode(myUser.getPassword()); //ENCRYPT
+        myUser.setPassword(hash);
+        myUser.setRole("PROVIDER");
+        authRepository.save(myUser);
+    }
 
 }
