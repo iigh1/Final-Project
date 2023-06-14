@@ -15,6 +15,6 @@ public class ProviderDTO {
     private String phoneNumber;
     private String field;
 //    private Double rating;
-    private String instegramAccount;
+    private String instagramAccount;
 //    private Integer wallet;
 }
