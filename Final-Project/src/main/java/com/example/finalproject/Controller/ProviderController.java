@@ -24,14 +24,17 @@ public class ProviderController {
 
     @PostMapping("/register")
     public ResponseEntity addProvider(@RequestBody ProviderDTO dto){
+          providerService.addProvider(dto);
         return ResponseEntity.status(200).body("provider register");
     }
     @PutMapping("/updated/{id}")
     public ResponseEntity updateProvider(@AuthenticationPrincipal MyUser myUser, @RequestBody Provider provider,@PathVariable Integer id){
+        providerService.updateProvider(myUser.getId(),provider,id);
         return ResponseEntity.status(200).body("provider updated");
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteProvider(@AuthenticationPrincipal MyUser myUser,@PathVariable Integer id){
+        providerService.deleteProvider(id);
         return ResponseEntity.status(200).body("provider deleted");
     }
 }
