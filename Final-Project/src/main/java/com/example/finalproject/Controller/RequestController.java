@@ -36,6 +36,17 @@ public class RequestController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteRequest(@AuthenticationPrincipal MyUser user,@PathVariable Integer id){
         requestService.deleteRequest(user, id);
-        return ResponseEntity.status(200).body("Request deleted");
+        return ResponseEntity.status(200).body("Request canceled");
+    }
+    @PutMapping("/cancel/{id}")
+    public ResponseEntity cancelRequest(@AuthenticationPrincipal MyUser user,@PathVariable Integer id){
+        requestService.cancelRequest(user, id);
+        return ResponseEntity.status(200).body("Request canceled");
+    }
+
+    @PutMapping("/gift/{requestId}/{customerId}")
+    public ResponseEntity gift(@AuthenticationPrincipal MyUser user,@PathVariable Integer requestId,@PathVariable Integer customerID){
+        requestService.gift(user, requestId, customerID);
+        return ResponseEntity.status(200).body("Gift has been sent");
     }
 }
