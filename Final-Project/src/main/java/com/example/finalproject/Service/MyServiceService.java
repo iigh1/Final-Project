@@ -4,12 +4,12 @@ import com.example.finalproject.ApiException.ApiException;
 import com.example.finalproject.Model.MyService;
 import com.example.finalproject.Model.MyUser;
 import com.example.finalproject.Model.Provider;
-import com.example.finalproject.Repository.AuthRepository;
 import com.example.finalproject.Repository.MyServiceRepository;
-import com.example.finalproject.Repository.ProviderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -17,19 +17,16 @@ import java.util.List;
 public class MyServiceService {
 
     private final MyServiceRepository myServiceRepository;
-    private final AuthRepository authRepository;
 
     public List<MyService> getAll(){
         return myServiceRepository.findAll();
     }
 
-    public List<MyService>  getServices(MyUser user){
-        return myServiceRepository.findMyServicesByProvider(user.getProvider());
+    public List<MyService>  getServices(Integer id){
+        return myServiceRepository.findMyServicesByProvider(id);
     }
 
     public void addService(MyUser user, MyService myService){
-        if (!user.getRole().equalsIgnoreCase("provider"))
-            throw new ApiException("Invalid");
         myService.setProvider(user.getProvider());
         myServiceRepository.save(myService);
     }
@@ -40,9 +37,7 @@ public class MyServiceService {
         if(service == null || provider == null || service.getProvider() != provider){
             throw new ApiException("Invalid");
         }
-
         service.setName(myService.getName());
-        service.setDuration(myService.getDuration());
         service.setPrice(myService.getPrice());
         myServiceRepository.save(service);
     }
@@ -56,25 +51,41 @@ public class MyServiceService {
         myServiceRepository.delete(service);
     }
 
-    public List<MyService> getServicesByCategory(Integer id, String category){
-        MyUser user = authRepository.findMyUserById(id);
-        if (user == null)
+    public List<Provider> getServicesByCategory(MyUser user, String category){
+        if (user.getRole().equalsIgnoreCase("provider"))
             throw new ApiException("Invalid");
-        return myServiceRepository.findMyServicesByCategory(category);
+          List<MyService> services = myServiceRepository.findMyServicesByCategory(category);
+          List<Provider> providers = new ArrayList<>();
+        for (MyService s : services) {
+            providers.add(s.getProvider());
+        }
+        return providers;
     }
 
-    public List<MyService> getServicesByPrice(Integer id, Double price){
-        MyUser user = authRepository.findMyUserById(id);
-        if (user == null)
-            throw new ApiException("Invalid");
-        return myServiceRepository.findMyServicesByPrice(price);
+    public List<Provider> sortServicesByPrice(String category){
+        List<MyService> services = myServiceRepository.findMyServicesByCategory(category);
+        List<Provider> providers = new ArrayList<>();
+        Collections.sort(services,(o1, o2) -> (int) (o1.getPrice() - o2.getPrice()));
+        for (MyService s : services) {
+            providers.add(s.getProvider());
+        }
+        return providers;
     }
 
-    public List<MyService> getServicesByRate(Integer id, Double rate){
-        MyUser user = authRepository.findMyUserById(id);
-        if (user == null)
-            throw new ApiException("Invalid");
-        return myServiceRepository.findMyServicesByRating(rate);
+    public List<Provider> sortServicesByRate(String category){
+        List<MyService> services = myServiceRepository.findMyServicesByCategory(category);
+        List<Provider> providers = new ArrayList<>();
+        Collections.sort(services,(o1, o2) -> (int) (o2.getRating() - o1.getRating()));
+        for (MyService s : services) {
+            providers.add(s.getProvider());
+        }
+        return providers;
+    }
+
+    public List<MyService> sortServicesOfProvider(Integer providerId){
+        List<MyService> services = myServiceRepository.findMyServicesByProvider(providerId);
+        Collections.sort(services,(o1, o2) -> (int) (o2.getRating() - o1.getRating()));
+        return services;
     }
 
 }
