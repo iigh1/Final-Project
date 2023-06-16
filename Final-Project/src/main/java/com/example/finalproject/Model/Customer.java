@@ -31,21 +31,17 @@ public class Customer {
     @NotEmpty(message = "username can't be empty")
     @Column(columnDefinition = "varchar(20) not null")
     private String username;
-//    @NotEmpty(message = "password can't be empty")
-//    @Column(columnDefinition = "varchar(20) not null")
+    @NotEmpty(message = "password can't be empty")
     private String password;
-//    @NotEmpty(message = "email can't be empty")
-//    @Email
-//    @Column(columnDefinition = "varchar(40) not null unique")
+    @NotEmpty(message = "email can't be empty")
+    @Email
+    @Column(columnDefinition = "varchar(40) not null unique")
     private String email;
     @NotEmpty(message = "phone number can't be empty")
     @Column(columnDefinition ="varchar(10)")
     private String phoneNumber;
 
-    private Integer points;
-
-
-    private boolean loyalty = false;
+  
 
 
     @OneToOne
