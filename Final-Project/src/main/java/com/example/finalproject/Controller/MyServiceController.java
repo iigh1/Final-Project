@@ -21,9 +21,9 @@ public class MyServiceController {
         return ResponseEntity.status(200).body(myServiceService.getAll());
     }
 
-    @GetMapping("/get-services")
-    public ResponseEntity getServices(@AuthenticationPrincipal MyUser user){
-        return ResponseEntity.status(200).body(myServiceService.getServices(user));
+    @GetMapping("/get-services/{providerId}")
+    public ResponseEntity getServices(@AuthenticationPrincipal MyUser user, @PathVariable Integer providerId){
+        return ResponseEntity.status(200).body(myServiceService.getServices(providerId));
     }
 
     @PostMapping("/add")
@@ -46,16 +46,21 @@ public class MyServiceController {
 
     @GetMapping("/get-category/{category}")
     public ResponseEntity getServicesByCategory(@AuthenticationPrincipal MyUser user, @PathVariable String category){
-        return ResponseEntity.status(200).body(myServiceService.getServicesByCategory(user.getId(), category));
+        return ResponseEntity.status(200).body(myServiceService.getServicesByCategory(user,category));
     }
 
-    @GetMapping("/get-price/{price}")
-    public ResponseEntity getServicesByPrice(@AuthenticationPrincipal MyUser user, @PathVariable Double price){
-        return ResponseEntity.status(200).body(myServiceService.getServicesByPrice(user.getId(), price));
+    @GetMapping("/sort-price/{category}")
+    public ResponseEntity sortServicesByPrice(@AuthenticationPrincipal MyUser user, @PathVariable String category){
+        return ResponseEntity.status(200).body(myServiceService.sortServicesByPrice(category));
     }
 
-    @GetMapping("/get-rating/{rate}")
-    public ResponseEntity getServicesByRate(@AuthenticationPrincipal MyUser user, @PathVariable Double rate){
-        return ResponseEntity.status(200).body(myServiceService.getServicesByRate(user.getId(), rate));
+    @GetMapping("/sort-rating/{category}")
+    public ResponseEntity sortServicesByRate(@AuthenticationPrincipal MyUser user, @PathVariable String category){
+        return ResponseEntity.status(200).body(myServiceService.sortServicesByRate(category));
+    }
+
+    @GetMapping("/sort-services/{providerId}")
+    public ResponseEntity sortServicesOfProvider(@AuthenticationPrincipal MyUser user, @PathVariable Integer providerId){
+        return ResponseEntity.status(200).body(myServiceService.sortServicesOfProvider(providerId));
     }
 }
