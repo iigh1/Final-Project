@@ -2,17 +2,13 @@ package com.example.finalproject.Service;
 
 import com.example.finalproject.ApiException.ApiException;
 import com.example.finalproject.DTO.ReviewDTO;
-import com.example.finalproject.Model.Customer;
-import com.example.finalproject.Model.MyUser;
-import com.example.finalproject.Model.Request;
-import com.example.finalproject.Model.Review;
-import com.example.finalproject.Repository.AuthRepository;
-import com.example.finalproject.Repository.RequestRepository;
-import com.example.finalproject.Repository.ReviewRepository;
+import com.example.finalproject.Model.*;
+import com.example.finalproject.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -20,36 +16,51 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final RequestRepository requestRepository;
-    private final AuthRepository authRepository;
-
+    private final ProviderRepository providerRepository;
+    private final MyServiceRepository myServiceRepository;
 
     public List<Review> getAll(){
         return reviewRepository.findAll();
     }
 
-    public List<Review> getReviewsOfProvider(Integer id, Integer providerId){
-        MyUser user = authRepository.findMyUserById(id);
-        if (user == null)
-            throw new ApiException("Invalid");
-        return reviewRepository.getReviewsByProvider(providerId);
+    public Review getReview(MyUser user,Integer id){
+        Review review = reviewRepository.findReviewById(id);
+        Customer customer = user.getCustomer();
+        if (review == null || customer != review.getRequest().getCustomer())
+            throw new ApiException("Not found");
+        return review;
     }
-
     public void addReview(MyUser user, ReviewDTO dto){
         Request request = requestRepository.findRequestById(dto.getRequestId());
+        if (request == null )
+            throw new ApiException("Request not found");
         Customer customer = request.getCustomer();
         Customer c = user.getCustomer();
+        Provider provider = request.getProvider();
+        MyService service = request.getMyService();
         if (c != customer)
             throw new ApiException("Unable");
         Review review = new Review(null, dto.getContent(), dto.getRating(), request,request.getMyService());
-        reviewRepository.save(review);
         request.setReview(review);
-        request.getMyService().getReviews().add(review);
+        Set<Review> reviews = service.getReviews();
+        service.getReviews().add(review);
+        if (reviews.size() > 0) {
+            service.setRating(calculateRate(reviews));
+            provider.setRating(calculateRate((Set<Review>) getReviewsOfProvider(user,provider.getId())));
+        }
+        else {
+            service.setRating(dto.getRating());
+            provider.setRating(dto.getRating());
+        }
+        reviewRepository.save(review);
+        myServiceRepository.save(service);
+        providerRepository.save(provider);
     }
 
     public void updateReview(MyUser user, Integer id, Review review){
         Review r = reviewRepository.findReviewById(id);
         Customer customer = user.getCustomer();
-        if(r == null || !user.getRole().equalsIgnoreCase("customer") || r.getRequest().getCustomer() != customer){
+        if(r == null  || r.getRequest().getCustomer() != customer){
             throw new ApiException("Not found");
         }
         r.setContent(review.getContent());
@@ -60,9 +71,34 @@ public class ReviewService {
     public void deleteReview(MyUser user, Integer id){
         Review r = reviewRepository.findReviewById(id);
         Customer customer = user.getCustomer();
-        if(r == null || !user.getRole().equalsIgnoreCase("customer") || r.getRequest().getCustomer() != customer){
+        if(r == null || r.getRequest().getCustomer() != customer){
             throw new ApiException("Not found");
         }
         reviewRepository.delete(r);
+    }
+
+    public List<Review> getReviewsOfProvider(MyUser user, Integer providerId){
+        Provider provider = providerRepository.findProviderById(providerId);
+        if (provider == null || (user.getProvider() != null && user.getProvider() != provider))
+            throw new ApiException("Invalid");
+        return reviewRepository.getReviewsByProvider(providerId);
+    }
+
+    public Double calculateRate(Set<Review> reviews) {
+        Integer count1 = 0, count2 = 0, count3 = 0, count4 = 0, count5 = 0;
+        for (Review re : reviews) {
+            if (re.getRating() == 1)
+                count1++;
+            else if (re.getRating() == 2)
+                count2++;
+            else if (re.getRating() == 3)
+                count3++;
+            else if (re.getRating() == 4)
+                count4++;
+            else if (re.getRating() == 5)
+                count5++;
+        }
+        Double rate = (double) (((1 * count1) + (2 * count2) + (3 * count3) + (4 * count4) + (5 * count5)) / reviews.size());
+        return rate;
     }
 }
