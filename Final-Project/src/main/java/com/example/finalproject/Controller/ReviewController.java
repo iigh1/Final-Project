@@ -23,9 +23,9 @@ public class ReviewController {
         return ResponseEntity.status(200).body(reviewService.getAll());
     }
 
-    @GetMapping("/get-reviews/{providerId}")
-    public ResponseEntity getReviewsOfProvider(@AuthenticationPrincipal MyUser user, @PathVariable Integer providerId){
-        return ResponseEntity.status(200).body(reviewService.getReviewsOfProvider(user.getId(), providerId));
+    @GetMapping("/get-review/{id}")
+    public ResponseEntity getReview(@AuthenticationPrincipal MyUser user,@PathVariable Integer id){
+        return ResponseEntity.status(200).body(reviewService.getReview(user, id));
     }
 
     @PostMapping("/add")
@@ -44,5 +44,10 @@ public class ReviewController {
     public ResponseEntity deleteReview(@AuthenticationPrincipal MyUser user, @PathVariable Integer id){
         reviewService.deleteReview(user, id);
         return ResponseEntity.status(200).body("Review deleted");
+    }
+
+    @GetMapping("/get-reviews/{providerId}")
+    public ResponseEntity getReviewsOfProvider(@AuthenticationPrincipal MyUser user,@PathVariable Integer providerId){
+        return ResponseEntity.status(200).body(reviewService.getReviewsOfProvider(user,providerId));
     }
 }
