@@ -18,6 +18,7 @@ public class ReviewService {
     private final RequestRepository requestRepository;
     private final ProviderRepository providerRepository;
     private final MyServiceRepository myServiceRepository;
+    private final CustomerRepository customerRepository;
 
     public List<Review> getAll(){
         return reviewRepository.findAll();
@@ -35,7 +36,7 @@ public class ReviewService {
         if (request == null )
             throw new ApiException("Request not found");
         Customer customer = request.getCustomer();
-        Customer c = user.getCustomer();
+        Customer c = customerRepository.findCustomerById(user.getId());
         Provider provider = request.getProvider();
         MyService service = request.getMyService();
         if (c != customer)
@@ -44,9 +45,9 @@ public class ReviewService {
         request.setReview(review);
         Set<Review> reviews = service.getReviews();
         service.getReviews().add(review);
-        if (reviews.size() > 0) {
+        if (reviews.size() > 1) {
             service.setRating(calculateRate(reviews));
-            provider.setRating(calculateRate((Set<Review>) getReviewsOfProvider(user,provider.getId())));
+            provider.setRating(calculateRate(getReviewsOfProvider(user,provider.getId())));
         }
         else {
             service.setRating(dto.getRating());
@@ -85,6 +86,23 @@ public class ReviewService {
     }
 
     public Double calculateRate(Set<Review> reviews) {
+        Integer count1 = 0, count2 = 0, count3 = 0, count4 = 0, count5 = 0;
+        for (Review re : reviews) {
+            if (re.getRating() == 1)
+                count1++;
+            else if (re.getRating() == 2)
+                count2++;
+            else if (re.getRating() == 3)
+                count3++;
+            else if (re.getRating() == 4)
+                count4++;
+            else if (re.getRating() == 5)
+                count5++;
+        }
+        Double rate = (double) (((1 * count1) + (2 * count2) + (3 * count3) + (4 * count4) + (5 * count5)) / reviews.size());
+        return rate;
+    }
+    public Double calculateRate(List<Review> reviews) {
         Integer count1 = 0, count2 = 0, count3 = 0, count4 = 0, count5 = 0;
         for (Review re : reviews) {
             if (re.getRating() == 1)

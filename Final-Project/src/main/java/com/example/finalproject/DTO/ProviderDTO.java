@@ -14,5 +14,5 @@ public class ProviderDTO {
     private String phoneNumber;
     private String field;
     private String instagramAccount;
-    
+
 }

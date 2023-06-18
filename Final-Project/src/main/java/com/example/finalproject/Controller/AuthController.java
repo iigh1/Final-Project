@@ -23,17 +23,6 @@ public class AuthController {
         return ResponseEntity.status(200).body(myUserList);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity register(@RequestBody MyUser myUser){
-        authService.register(myUser);
-        return ResponseEntity.status(200).body("user register");
-    }
-     @PostMapping("register-provider")
-    public ResponseEntity registerProvider(@RequestBody MyUser myUser){
-        authService.registerProvider(myUser);
-        return ResponseEntity.status(200).body("provider register");
-    }
-
     @PostMapping("/admin")
     public ResponseEntity admin(){
 

@@ -16,28 +16,28 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-    public class Review {
+public class Review {
 
-        @Id
-        private Integer id;
+    @Id
+    private Integer id;
 
-        @NotEmpty(message = "Content is required")
-        @Column(columnDefinition = "varchar(60)")
-        private String content;
+    @NotEmpty(message = "Content is required")
+    @Column(columnDefinition = "varchar(60)")
+    private String content;
 
-        @Positive
-        @Min(value = 1)
-        @Max(value = 5)
-        private Double rating;
+    @Positive
+    @Min(value = 1)
+    @Max(value = 5)
+    private Double rating;
 
-        @OneToOne
-        @MapsId
-        @JsonIgnore
-        private Request request;
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private Request request;
 
-        @ManyToOne
-        @JoinColumn(name = "service_id",referencedColumnName = "id")
-        @JsonIgnore
-        private MyService myService;
-    }
+    @ManyToOne
+    @JoinColumn(name = "service_id",referencedColumnName = "id")
+    @JsonIgnore
+    private MyService myService;
+}
 

@@ -53,13 +53,7 @@ public class RequestService {
         requestRepository.delete(req);
     }
 
-    public void cancelRequest(MyUser user, Integer id){
-        Request req = requestRepository.findRequestById(id);
-        if (req == null || req.getCustomer() != user.getCustomer() || !req.getStatus().equalsIgnoreCase("new"))
-            throw new ApiException("Invalid");
-        req.setStatus("Canceled");
-        requestRepository.save(req);
-    }
+
 
     public void gift(MyUser user, Integer requestId, Integer customerID){
         Request req = requestRepository.findRequestById(requestId);

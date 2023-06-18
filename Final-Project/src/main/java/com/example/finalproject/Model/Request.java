@@ -28,7 +28,7 @@ public class Request {
     @Column(columnDefinition = "varchar(20)")
     private String occasion;
 
-    @Pattern(regexp = "\\b(?:New|Accepted|Canceled|Completed)\\b",message = "Status Not Valid")
+    @Pattern(regexp = "\\b(?:New|Accepted|Rejected|Canceled|Completed)\\b",message = "Status Not Valid")
     @Column(columnDefinition = "varchar(20) check(Status='New' or Status='Accepted' " +
             "or Status='canceled' or Status='Completed')")
     private String status;

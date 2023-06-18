@@ -27,7 +27,7 @@ public class AuthService {
         authRepository.save(myUser);
     }
 
-     public void registerProvider(MyUser myUser){
+    public void registerProvider(MyUser myUser){
         String hash=new BCryptPasswordEncoder().encode(myUser.getPassword()); //ENCRYPT
         myUser.setPassword(hash);
         myUser.setRole("PROVIDER");

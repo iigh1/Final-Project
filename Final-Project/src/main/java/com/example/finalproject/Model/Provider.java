@@ -2,7 +2,6 @@ package com.example.finalproject.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,10 +27,10 @@ public class Provider {
     @Column(columnDefinition = "varchar(20) not null")
     private String username;
     @NotEmpty(message = "password can't be empty")
-    @Column(columnDefinition = "varchar(20) not null")
+   // @Column(columnDefinition = "varchar not null")
     private String password;
     @NotEmpty(message = "email can't be empty")
-    @Email(message = "invalid email",regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
+   // @Email(message = "invalid email",regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
     @Column(columnDefinition = "varchar(40) not null unique")
     private String email;
     @NotEmpty(message = "phone number can't be empty")
@@ -43,14 +42,14 @@ public class Provider {
     @Column(columnDefinition = "varchar(20) not null check(field='makeup' or field='hairStyle' or field='spa' or field='design' or field='photograph')")
     private String field;
 
+    @NotEmpty(message = "instagramAccount can't be empty")
+    @Column(columnDefinition = "varchar(30) ")
+    private String instagramAccount;
+
     @Positive
     @Min(value = 1)
     @Max(value = 5)
     private Double rating;
-
-    @NotEmpty(message = "instegramAccount can't be empty")
-    @Column(columnDefinition = "varchar(30) not null")
-    private String instegramAccount;
 
 
 

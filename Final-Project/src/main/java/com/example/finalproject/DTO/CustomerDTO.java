@@ -14,8 +14,4 @@ public class CustomerDTO {
     private String email;
     private String phoneNumber;
 
-//    private Integer points;
-//    private Double wallet;
-//    private boolean loyalty = false;
-
 }

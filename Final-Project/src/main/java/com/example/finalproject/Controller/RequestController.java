@@ -38,11 +38,6 @@ public class RequestController {
         requestService.deleteRequest(user, id);
         return ResponseEntity.status(200).body("Request canceled");
     }
-    @PutMapping("/cancel/{id}")
-    public ResponseEntity cancelRequest(@AuthenticationPrincipal MyUser user,@PathVariable Integer id){
-        requestService.cancelRequest(user, id);
-        return ResponseEntity.status(200).body("Request canceled");
-    }
 
     @PutMapping("/gift/{requestId}/{customerId}")
     public ResponseEntity gift(@AuthenticationPrincipal MyUser user,@PathVariable Integer requestId,@PathVariable Integer customerID){

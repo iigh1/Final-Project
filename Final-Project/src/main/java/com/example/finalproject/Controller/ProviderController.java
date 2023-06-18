@@ -4,6 +4,7 @@ import com.example.finalproject.DTO.ProviderDTO;
 import com.example.finalproject.Model.MyUser;
 import com.example.finalproject.Model.Provider;
 import com.example.finalproject.Service.ProviderService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,13 +22,13 @@ public class ProviderController {
         return ResponseEntity.status(200).body(providerService.getAll());
     }
 
-    @GetMapping("/get-provider")
-    public ResponseEntity getProvider(@AuthenticationPrincipal MyUser myUser, Integer providerId){
+    @GetMapping("/get-provider/{provider}")
+    public ResponseEntity getProvider(@AuthenticationPrincipal MyUser myUser,@PathVariable Integer providerId){
         return ResponseEntity.status(200).body(providerService.getProvider(myUser, providerId));
     }
 
     @PostMapping("/register")
-    public ResponseEntity addProvider(@Valid  @RequestBody ProviderDTO dto){
+    public ResponseEntity addProvider(@Valid @RequestBody ProviderDTO dto){
         providerService.addProvider(dto);
         return ResponseEntity.status(200).body("provider register");
     }
@@ -48,13 +49,13 @@ public class ProviderController {
     }
     @GetMapping("/get-request")
     public ResponseEntity getRequest(@AuthenticationPrincipal MyUser myUser){
-       return ResponseEntity.status(200).body(providerService.getRequest(myUser));
+        return ResponseEntity.status(200).body(providerService.getRequest(myUser));
 
     }
 
     @GetMapping("/get-service")
-    public ResponseEntity getService(@AuthenticationPrincipal MyUser myUser, Integer providerId){
-        return ResponseEntity.status(200).body(providerService.getService(myUser, providerId));
+    public ResponseEntity getService(@AuthenticationPrincipal MyUser myUser){
+        return ResponseEntity.status(200).body(providerService.getService(myUser));
     }
 
     @GetMapping("/get-complete")
@@ -66,6 +67,10 @@ public class ProviderController {
     public ResponseEntity getNewRequest(@AuthenticationPrincipal MyUser myUser){
         return ResponseEntity.status(200).body(providerService.getNewRequest(myUser));
     }
+    @GetMapping("/get-active")
+    public ResponseEntity getActiveRequest(@AuthenticationPrincipal MyUser myUser){
+        return ResponseEntity.status(200).body(providerService.getActiveRequest(myUser));
+    }
     @PutMapping("/accept-request/{requestId}")
     public ResponseEntity acceptRequest(@AuthenticationPrincipal MyUser myUser,@PathVariable Integer requestId){
         providerService.acceptRequest(myUser,requestId);
@@ -73,7 +78,12 @@ public class ProviderController {
     }
     @PutMapping("/reject-request/{requestId}")
     public ResponseEntity rejectRequest(@AuthenticationPrincipal MyUser myUser,@PathVariable Integer requestId){
-        providerService.acceptRequest(myUser,requestId);
+        providerService.rejectRequest(myUser,requestId);
         return ResponseEntity.status(200).body("rejected Request");
+    }
+    @PutMapping("/completed-request/{requestId}")
+    public ResponseEntity completeRequest(@AuthenticationPrincipal MyUser myUser,@PathVariable Integer requestId){
+        providerService.completeRequest(myUser,requestId);
+        return ResponseEntity.status(200).body("complete Request");
     }
 }

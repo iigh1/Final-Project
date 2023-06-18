@@ -31,12 +31,12 @@ public class MyUser implements UserDetails {
     @Column(columnDefinition = "varchar(20) not null")
     private String username;
 
-//    @NotEmpty(message = "password can't be empty")
+    //    @NotEmpty(message = "password can't be empty")
 //    @Column(columnDefinition = "varchar(20) not null")
     private String password;
 
     @NotEmpty(message = "role can't be empty")
-    @Column(columnDefinition = "varchar(30) not null check(role ='customer' or role='provider')")
+    @Column(columnDefinition = "varchar(30) not null check(role ='customer' or role='provider' or role='admin')")
     private String role;
 
 
