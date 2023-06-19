@@ -22,9 +22,13 @@ public class ProviderController {
         return ResponseEntity.status(200).body(providerService.getAll());
     }
 
+    @GetMapping("/get-provider")
+    public ResponseEntity getProvider(@AuthenticationPrincipal MyUser myUser){
+        return ResponseEntity.status(200).body(providerService.getProvider(myUser));
+    }
     @GetMapping("/get-provider/{providerId}")
-    public ResponseEntity getProvider(@AuthenticationPrincipal MyUser myUser,@PathVariable Integer providerId){
-        return ResponseEntity.status(200).body(providerService.getProvider(myUser, providerId));
+    public ResponseEntity getProviderForCustomer(@AuthenticationPrincipal MyUser myUser,@PathVariable Integer providerId){
+        return ResponseEntity.status(200).body(providerService.getProviderForCustomer(myUser, providerId));
     }
 
     @PostMapping("/register")
