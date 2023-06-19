@@ -86,4 +86,8 @@ public class ProviderController {
         providerService.completeRequest(myUser,requestId);
         return ResponseEntity.status(200).body("complete Request");
     }
+    @GetMapping("/get-provider-field/{field}")
+    public ResponseEntity findProviderByField(@AuthenticationPrincipal MyUser myUser,@PathVariable String field){
+       return ResponseEntity.status(200).body(providerService.getProviderByField(field));
+    }
 }
