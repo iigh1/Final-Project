@@ -30,12 +30,20 @@ public class ProviderService {
         return providerRepository.findAll();
     }
 
-    public Provider getProvider(MyUser user, Integer providerId){
-        Provider provider = providerRepository.findProviderById(providerId);
-        if (provider == null || (user.getRole().equalsIgnoreCase("provider")&& user.getId()!= providerId))
+    public Provider getProvider(MyUser user){
+        Provider provider = providerRepository.findProviderById(user.getId());
+        if (provider == null )
             throw new ApiException("Invalid");
         return provider;
     }
+
+    public String getProviderForCustomer(MyUser user, Integer providerId){
+        Provider provider = providerRepository.findProviderById(providerId);
+        if (provider == null || user.getRole().equalsIgnoreCase("provider"))
+            throw new ApiException("Invalid");
+        return "Name: "+provider.getName()+"\n"+"Rate: "+provider.getRating()+"\n"+"Instagram Account: "+provider.getInstagramAccount()+"\n";
+    }
+    
     public void addProvider(ProviderDTO dto) {
 
         String hash=new BCryptPasswordEncoder().encode(dto.getPassword());
