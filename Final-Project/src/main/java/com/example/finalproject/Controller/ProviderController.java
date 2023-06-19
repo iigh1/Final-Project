@@ -22,7 +22,7 @@ public class ProviderController {
         return ResponseEntity.status(200).body(providerService.getAll());
     }
 
-    @GetMapping("/get-provider/{provider}")
+    @GetMapping("/get-provider/{providerId}")
     public ResponseEntity getProvider(@AuthenticationPrincipal MyUser myUser,@PathVariable Integer providerId){
         return ResponseEntity.status(200).body(providerService.getProvider(myUser, providerId));
     }
