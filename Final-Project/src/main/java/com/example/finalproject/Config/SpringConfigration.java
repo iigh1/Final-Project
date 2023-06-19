@@ -49,7 +49,8 @@ public class SpringConfigration {
                 .requestMatchers("/api/v1/customer/get-completed").hasAuthority("CUSTOMER")
                 //Provider
                 .requestMatchers("/api/v1/provider/get").hasAuthority("ADMIN")
-                .requestMatchers("/api/v1/provider/get-provider/{provider}").hasAnyRole("CUSTOMER","PROVIDER")
+                .requestMatchers("/api/v1/provider/get-provider").hasAuthority("PROVIDER")
+                .requestMatchers("/api/v1/provider/get-provider/{provider}").hasAuthority("CUSTOMER")
                 .requestMatchers("/api/v1/provider/register").permitAll()
                 .requestMatchers("/api/v1/provider/update").hasAuthority("PROVIDER")
                 .requestMatchers("/api/v1/provider/delete").hasAuthority("PROVIDER")
