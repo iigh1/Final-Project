@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface ProviderRepository extends JpaRepository<Provider,Integer> {
 
     Provider findProviderById(Integer id);
+    
+    List<Provider> findProviderByField(String field);
 
 }
