@@ -154,5 +154,9 @@ public class ProviderService {
         r.setStatus("Completed");
         requestRepository.save(r);
     }
+        public List<Provider> getProviderByField(String field){
+
+        return providerRepository.findProviderByField(field);
+    }
 
 }
