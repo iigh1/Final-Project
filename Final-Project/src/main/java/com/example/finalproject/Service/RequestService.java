@@ -58,9 +58,9 @@ public class RequestService {
     public void gift(MyUser user, Integer requestId, Integer customerID){
         Request req = requestRepository.findRequestById(requestId);
         Customer customer = customerRepository.findCustomerById(customerID);
-        if (req == null || customer == null || req.getCustomer() != user.getCustomer() || req.getStatus().equalsIgnoreCase("cancel"))
+        if (req == null || customer == null || req.getCustomer().getId() != user.getId() || req.getStatus().equalsIgnoreCase("cancel"))
             throw new ApiException("Invalid");
-        req.setCustomer(customer);
+        req.setGiftedCustomer(customerID);
         requestRepository.save(req);
     }
 }
