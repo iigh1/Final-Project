@@ -40,8 +40,11 @@ public class AuthController {
 
         return ResponseEntity.status(200).body("logout");
     }
-    @PostMapping("/user")
-    public ResponseEntity user(){
-        return ResponseEntity.status(200).body("welcome user");
+    @PostMapping("/customer")
+    public ResponseEntity customer(){
+        return ResponseEntity.status(200).body("welcome Customer");
     }
+
+    @PostMapping("/provider")
+    public ResponseEntity provider(){return ResponseEntity.status(200).body("Welcome Provider");}
 }
