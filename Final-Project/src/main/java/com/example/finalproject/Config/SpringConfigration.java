@@ -36,7 +36,8 @@ public class SpringConfigration {
                 //auth
                 .requestMatchers("/api/v1/auth/admin").hasAuthority("ADMIN")
                 .requestMatchers("/api/v1/auth/customer").hasAuthority("CUSTOMER")
-                .requestMatchers("/api/v1/login").hasAuthority("CUSTOMER")
+                .requestMatchers("/api/v1/auth/provider").hasAuthority("PROVIDER")
+                .requestMatchers("/api/v1/auth/login").hasAnyAuthority("CUSTOMER","PROVIDER")
                 //Customer
                 .requestMatchers("/api/v1/customer/get").hasAuthority("ADMIN")
                 .requestMatchers("/api/v1/customer/get-customer").hasAuthority("CUSTOMER")
@@ -48,7 +49,7 @@ public class SpringConfigration {
                 .requestMatchers("/api/v1/customer/get-active").hasAuthority("CUSTOMER")
                 .requestMatchers("/api/v1/customer/get-completed").hasAuthority("CUSTOMER")
                 //Provider
-                .requestMatchers("/api/v1/provider/get").hasAuthority("ADMIN")
+                .requestMatchers("/api/v1/provider/get").hasAuthority("CUSTOMER")
                 .requestMatchers("/api/v1/provider/get-provider").hasAuthority("PROVIDER")
                 .requestMatchers("/api/v1/provider/get-provider/{provider}").hasAuthority("CUSTOMER")
                 .requestMatchers("/api/v1/provider/register").permitAll()
@@ -63,8 +64,9 @@ public class SpringConfigration {
                 .requestMatchers("/api/v1/provider/accept-request/{requestId}").hasAuthority("PROVIDER")
                 .requestMatchers("/api/v1/provider/reject-request/{requestId}").hasAuthority("PROVIDER")
                 .requestMatchers("/api/v1/provider/complete-request/{requestId}").hasAuthority("PROVIDER")
+                .requestMatchers("/api/v1/provider/get-provider-field/{field}").hasAuthority("CUSTOMER")
                 //Service
-                .requestMatchers("/api/v1/service/get").hasAuthority("ADMIN")
+                .requestMatchers("/api/v1/service/get").hasAuthority("CUSTOMER")
                 .requestMatchers("/api/v1/service/add").hasAuthority("PROVIDER")
                 .requestMatchers("/api/v1/service/update/{id}").hasAuthority("PROVIDER")
                 .requestMatchers("/api/v1/service/delete/{id}").hasAuthority("PROVIDER")
@@ -81,12 +83,12 @@ public class SpringConfigration {
                 .requestMatchers("/api/v1/request/cancel/{id}").hasAuthority("CUSTOMER")
                 .requestMatchers("/api/v1/request/gift/{requestId}/{customerId}").hasAuthority("CUSTOMER")
                 //Review
-                .requestMatchers("/api/v1/review/get").hasAuthority("ADMIN")
+                .requestMatchers("/api/v1/review/get").hasAuthority("CUSTOMER")
                 .requestMatchers("/api/v1/review/get-review/{id}").hasAuthority("CUSTOMER")
                 .requestMatchers("/api/v1/review/add").hasAuthority("CUSTOMER")
                 .requestMatchers("/api/v1/review/update/{id}").hasAuthority("CUSTOMER")
                 .requestMatchers("/api/v1/review/delete/{id}").hasAuthority("CUSTOMER")
-                .requestMatchers("/api/v1/review/get-reviews/{providerId}").hasAnyRole("CUSTOMER","PROVIDER")
+                .requestMatchers("/api/v1/review/get-reviews/{providerId}").hasAnyAuthority("CUSTOMER","PROVIDER")
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutUrl("/api/v1/auth/logout")
