@@ -46,9 +46,9 @@ public class RequestControllerTest {
     void setUp() {
         myUser=new MyUser(1,"user1","1234","customer",null,null);
 
-        request1 = new Request(null,"2023-6-10","New","wedding",150.0,null,null,null,null);
-        request2 = new Request(null,"2023-6-10","New","wedding",150.0,null,null,null,null);
-        request3 = new Request(null,"2023-6-10","New","wedding",150.0,null,null,null,null);
+        request1 = new Request(null,"2023-6-10","New","wedding",150.0,null,null,null,null,null);
+        request2 = new Request(null,"2023-6-10","New","wedding",150.0,null,null,null,null,null);
+        request3 = new Request(null,"2023-6-10","New","wedding",150.0,null,null,null,null,null);
 
         requests= Arrays.asList(request1);
         requestList=Arrays.asList(request2);
