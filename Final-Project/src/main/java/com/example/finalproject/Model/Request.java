@@ -37,7 +37,7 @@ public class Request {
     private Double price;
 
     @ManyToOne
-    @JoinColumn(name = "request_id",referencedColumnName = "id")
+    @JoinColumn(name = "service_id",referencedColumnName = "id")
     @JsonIgnore
     private MyService myService;
 
@@ -55,6 +55,8 @@ public class Request {
     @JoinColumn(name = "customer_id")
     @JsonIgnore
     private Customer customer;
+
+    private Integer giftedCustomer;
 
 }
 
