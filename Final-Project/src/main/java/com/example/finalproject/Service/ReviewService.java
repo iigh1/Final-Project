@@ -43,8 +43,8 @@ public class ReviewService {
             throw new ApiException("Unable");
         Review review = new Review(null, dto.getContent(), dto.getRating(), request,request.getMyService());
         request.setReview(review);
-        Set<Review> reviews = service.getReviews();
         service.getReviews().add(review);
+        Set<Review> reviews = service.getReviews();
         if (reviews.size() > 1) {
             service.setRating(calculateRate(reviews));
             provider.setRating(calculateRate(getReviewsOfProvider(user,provider.getId())));

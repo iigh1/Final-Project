@@ -5,6 +5,7 @@ import com.example.finalproject.Model.MyService;
 import com.example.finalproject.Model.MyUser;
 import com.example.finalproject.Model.Provider;
 import com.example.finalproject.Repository.MyServiceRepository;
+import com.example.finalproject.Repository.ProviderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class MyServiceService {
 
     private final MyServiceRepository myServiceRepository;
+    private final ProviderRepository providerRepository;
 
     public List<MyService> getAll(){
         return myServiceRepository.findAll();
@@ -27,12 +29,12 @@ public class MyServiceService {
     }
 
     public void addService(MyUser user, MyService myService){
-        myService.setProvider(user.getProvider());
+        myService.setProvider(providerRepository.findProviderById(user.getId()));
         myServiceRepository.save(myService);
     }
 
     public void updateService(MyUser user, MyService myService, Integer id){
-        Provider provider = user.getProvider();
+        Provider provider = providerRepository.findProviderById(user.getId());
         MyService service= myServiceRepository.findMyServiceById(id);
         if(service == null || provider == null || service.getProvider() != provider){
             throw new ApiException("Invalid");
@@ -43,7 +45,7 @@ public class MyServiceService {
     }
 
     public void deleteService(MyUser user, Integer id){
-        Provider provider = user.getProvider();
+        Provider provider = providerRepository.findProviderById(user.getId());
         MyService service= myServiceRepository.findMyServiceById(id);
         if(service == null || provider == null || service.getProvider() != provider){
             throw new ApiException("Invalid");
@@ -57,7 +59,8 @@ public class MyServiceService {
           List<MyService> services = myServiceRepository.findMyServicesByCategory(category);
           List<Provider> providers = new ArrayList<>();
         for (MyService s : services) {
-            providers.add(s.getProvider());
+            if (!providers.contains(s.getProvider()))
+                providers.add(s.getProvider());
         }
         return providers;
     }
@@ -67,7 +70,8 @@ public class MyServiceService {
         List<Provider> providers = new ArrayList<>();
         Collections.sort(services,(o1, o2) -> (int) (o1.getPrice() - o2.getPrice()));
         for (MyService s : services) {
-            providers.add(s.getProvider());
+            if (!providers.contains(s.getProvider()))
+                providers.add(s.getProvider());
         }
         return providers;
     }
@@ -77,7 +81,8 @@ public class MyServiceService {
         List<Provider> providers = new ArrayList<>();
         Collections.sort(services,(o1, o2) -> (int) (o2.getRating() - o1.getRating()));
         for (MyService s : services) {
-            providers.add(s.getProvider());
+            if (!providers.contains(s.getProvider()))
+                providers.add(s.getProvider());
         }
         return providers;
     }

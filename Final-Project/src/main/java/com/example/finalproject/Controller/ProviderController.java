@@ -92,6 +92,6 @@ public class ProviderController {
     }
     @GetMapping("/get-provider-field/{field}")
     public ResponseEntity findProviderByField(@AuthenticationPrincipal MyUser myUser,@PathVariable String field){
-       return ResponseEntity.status(200).body(providerService.getProviderByField(field));
+        return ResponseEntity.status(200).body(providerService.getProviderByField(field));
     }
 }

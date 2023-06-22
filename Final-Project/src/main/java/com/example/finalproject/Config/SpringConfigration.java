@@ -37,7 +37,7 @@ public class SpringConfigration {
                 .requestMatchers("/api/v1/auth/admin").hasAuthority("ADMIN")
                 .requestMatchers("/api/v1/auth/customer").hasAuthority("CUSTOMER")
                 .requestMatchers("/api/v1/auth/provider").hasAuthority("PROVIDER")
-                .requestMatchers("/api/v1/auth/login").hasAnyAuthority("CUSTOMER","PROVIDER")
+                .requestMatchers("/api/v1/auth/login").hasAnyAuthority("CUSTOMER","PROVIDER","ADMIN")
                 //Customer
                 .requestMatchers("/api/v1/customer/get").hasAuthority("ADMIN")
                 .requestMatchers("/api/v1/customer/get-customer").hasAuthority("CUSTOMER")

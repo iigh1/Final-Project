@@ -45,9 +45,9 @@ public class ProviderControllerTest {
     void setUp() {
 
         myUser = new MyUser(null, "user2", "1234", "provider", null, null);
-        provider1 = new Provider(null, "Maha", "provider1", "1234", "ma@gmail.com", "0555555555", "Makeup", null, "mahaArt", null, null, null);
-        provider2 = new Provider(null, "Maha", "provider1", "1234", "ma@gmail.com", "0555555555", "Makeup", null, "mahaArt", null, null, null);
-        provider3 = new Provider(null, "Maha", "provider1", "1234", "ma@gmail.com", "0555555555", "Makeup", null, "mahaArt", null, null, null);
+        provider1 = new Provider(null, "Maha", "provider1", "1234", "ma@gmail.com", "0555555555", "Makeup", null, 0.0, null, null, null);
+        provider2 = new Provider(null, "Maha", "provider1", "1234", "ma@gmail.com", "0555555555", "Makeup", null, 0.0, null, null, null);
+        provider3 = new Provider(null, "Maha", "provider1", "1234", "ma@gmail.com", "0555555555", "Makeup", null, 0.0, null, null, null);
 
         providers= Arrays.asList(provider1);
         providerList=Arrays.asList(provider2);
@@ -64,7 +64,7 @@ public class ProviderControllerTest {
 
     @Test
     public void GetProvider() throws Exception {
-        Mockito.when(providerService.getProvider(myUser, myUser.getId())).thenReturn(provider1);
+        Mockito.when(providerService.getProvider(myUser)).thenReturn(provider1);
         mockMvc.perform(get("/api/v1/provider/get-provider"))
                 .andExpect(status().isOk());
     }

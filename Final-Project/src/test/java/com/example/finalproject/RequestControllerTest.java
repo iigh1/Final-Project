@@ -62,4 +62,4 @@ public class RequestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
     }
-    }
+}

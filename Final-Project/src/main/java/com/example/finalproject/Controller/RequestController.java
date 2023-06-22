@@ -40,8 +40,8 @@ public class RequestController {
     }
 
     @PutMapping("/gift/{requestId}/{customerId}")
-    public ResponseEntity gift(@AuthenticationPrincipal MyUser user,@PathVariable Integer requestId,@PathVariable Integer customerID){
-        requestService.gift(user, requestId, customerID);
+    public ResponseEntity gift(@AuthenticationPrincipal MyUser user,@PathVariable Integer requestId,@PathVariable Integer customerId){
+        requestService.gift(user, requestId, customerId);
         return ResponseEntity.status(200).body("Gift has been sent");
     }
 }

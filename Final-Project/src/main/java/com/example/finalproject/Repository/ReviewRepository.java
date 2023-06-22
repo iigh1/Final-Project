@@ -17,6 +17,4 @@ public interface ReviewRepository extends JpaRepository<Review,Integer> {
     @Query("select r from Review r where r.myService.provider.id = ?1")
     List<Review> getReviewsByProvider(Integer id);
 
-
-
 }

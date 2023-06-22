@@ -43,7 +43,6 @@ public class ProviderService {
             throw new ApiException("Invalid");
         return "Name: "+provider.getName()+"\n"+"Rate: "+provider.getRating()+"\n"+"Instagram Account: "+provider.getInstagramAccount()+"\n";
     }
-    
     public void addProvider(ProviderDTO dto) {
 
         String hash=new BCryptPasswordEncoder().encode(dto.getPassword());
@@ -115,7 +114,7 @@ public class ProviderService {
         if (provider==null){
             throw new ApiException("invalid");
         }
-        return requestRepository.findCompletedRequestsByStatusAndCustomer("Completed","Canceled","Rejected", myUser.getId());
+        return requestRepository.findCompletedRequestsByStatusAndProvider("Completed","Canceled","Rejected", myUser.getId());
     }
     public List<Request> getNewRequest(MyUser myUser){
         Provider provider = providerRepository.findProviderById(myUser.getId());
@@ -130,7 +129,7 @@ public class ProviderService {
         if (provider==null){
             throw new ApiException("invalid");
         }
-        return requestRepository.findRequestsByStatus("Active", provider.getId());
+        return requestRepository.findRequestsByStatus("Accepted", provider.getId());
     }
 
     public void acceptRequest(MyUser myUser, Integer requestId){
@@ -162,6 +161,7 @@ public class ProviderService {
         r.setStatus("Completed");
         requestRepository.save(r);
     }
+
     public List<Provider> getProviderByField(String field){
 
         return providerRepository.findProviderByField(field);

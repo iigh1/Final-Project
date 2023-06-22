@@ -45,9 +45,9 @@ public class ProviderServiceTest {
     void setUp() {
 
         myUser = new MyUser(null,"user2","1234","provider",null,null);
-        provider1 = new Provider(null,"Maha","provider1","1234","ma@gmail.com","0555555555","Makeup",null,"mahaArt",null,null,null);
-        provider2 = new Provider(null,"Maha","provider1","1234","ma@gmail.com","0555555555","Makeup",null,"mahaArt",null,null,null);
-        provider3 = new Provider(null,"Maha","provider1","1234","ma@gmail.com","0555555555","Makeup",null,"mahaArt",null,null,null);
+        provider1 = new Provider(null,"Maha","provider1","1234","ma@gmail.com","0555555555","Makeup",null,0.0,null,null,null);
+        provider2 = new Provider(null,"Maha","provider1","1234","ma@gmail.com","0555555555","Makeup",null,0.0,null,null,null);
+        provider3 = new Provider(null,"Maha","provider1","1234","ma@gmail.com","0555555555","Makeup",null,0.0,null,null,null);
 
 
         providers = new ArrayList<>();
